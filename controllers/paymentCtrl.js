@@ -4,22 +4,22 @@ const Products = require('../models/productModel')
 
 
 const paymentCtrl = {
-    getPayments: async(req, res) =>{
+    getPayments: async (req, res) => {
         try {
             const payments = await Payments.find()
             res.json(payments)
         } catch (err) {
-            return res.status(500).json({msg: err.message})
+            return res.status(500).json({ msg: err.message })
         }
     },
-    createPayment: async(req, res) => {
+    createPayment: async (req, res) => {
         try {
             const user = await Users.findById(req.user.id).select('name email')
-            if(!user) return res.status(400).json({msg: "User does not exist."})
+            if (!user) return res.status(400).json({ msg: "User does not exist." })
 
-            const {cart, paymentID, address} = req.body;
+            const { cart, paymentID, address } = req.body;
 
-            const {_id, name, email} = user;
+            const { _id, name, email } = user;
 
             const newPayment = new Payments({
                 user_id: _id, name, email, cart, paymentID, address
@@ -29,18 +29,18 @@ const paymentCtrl = {
                 return sold(item._id, item.quantity, item.sold)
             })
 
-            
+
             await newPayment.save()
-            res.json({msg: "Payment Succes!"})
-            
+            res.json({ msg: "Payment Succes!" })
+
         } catch (err) {
-            return res.status(500).json({msg: err.message})
+            return res.status(500).json({ msg: err.message })
         }
     }
 }
 
-const sold = async (id, quantity, oldSold) =>{
-    await Products.findOneAndUpdate({_id: id}, {
+const sold = async (id, quantity, oldSold) => {
+    await Products.findOneAndUpdate({ _id: id }, {
         sold: quantity + oldSold
     })
 }

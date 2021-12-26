@@ -1,32 +1,31 @@
 const mongoose = require('mongoose')
 
-
 const paymentSchema = new mongoose.Schema({
     user_id: {
         type: String,
         required: true
     },
-    name:{
+    name: {
         type: String,
         required: true
     },
-    email:{
+    email: {
         type: String,
         required: true
     },
-    paymentID:{
+    paymentID: {
         type: String,
         required: true
     },
-    address:{
+    address: {
         type: Object,
         required: true
     },
-    cart:{
+    cart: {
         type: Array,
         default: []
     },
-    status:{
+    status: {
         type: Boolean,
         default: false
     }
