@@ -1,0 +1,11 @@
+MONGODB_URL = 당신꺼 적어
+
+CLOUD_API_KEY = 당신꺼 적어
+CLOUD_API_SECRET = 당신꺼 적어
+CLOUD_NAME = 당신꺼 적어
+
+
+REFRESH_TOKEN_SECRET = 당신꺼 적어
+ACCESS_TOKEN_SECRET = 당신꺼 적어
+
+// 화장자 앞에 . 찍고 쓰셈
