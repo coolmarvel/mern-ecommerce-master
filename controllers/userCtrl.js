@@ -9,10 +9,10 @@ const userCtrl = {
             const { name, email, password } = req.body;
 
             const user = await Users.findOne({ email })
-            if (user) return res.status(400).json({ msg: "The email already exists." })
+            if (user) return res.status(400).json({ msg: "이미 존재하는 이메일입니다." })
 
             if (password.length < 6)
-                return res.status(400).json({ msg: "Password is at least 6 characters long." })
+                return res.status(400).json({ msg: "비밀번호는 6자 이상으로 해주세요." })
 
             // Password Encryption
             const passwordHash = await bcrypt.hash(password, 10)
@@ -44,10 +44,10 @@ const userCtrl = {
             const { email, password } = req.body;
 
             const user = await Users.findOne({ email })
-            if (!user) return res.status(400).json({ msg: "User does not exist." })
+            if (!user) return res.status(400).json({ msg: "존재하지 않는 계정입니다." })
 
             const isMatch = await bcrypt.compare(password, user.password)
-            if (!isMatch) return res.status(400).json({ msg: "Incorrect password." })
+            if (!isMatch) return res.status(400).json({ msg: "비밀번호가 일치하지 않습니다." })
 
             // If login success , create access token and refresh token
             const accesstoken = createAccessToken({ id: user._id })
@@ -94,7 +94,7 @@ const userCtrl = {
     getUser: async (req, res) => {
         try {
             const user = await Users.findById(req.user.id).select('-password')
-            if (!user) return res.status(400).json({ msg: "User does not exist." })
+            if (!user) return res.status(400).json({ msg: "존재하지 않는 계정입니다." })
 
             res.json(user)
         } catch (err) {
@@ -104,13 +104,13 @@ const userCtrl = {
     addCart: async (req, res) => {
         try {
             const user = await Users.findById(req.user.id)
-            if (!user) return res.status(400).json({ msg: "User does not exist." })
+            if (!user) return res.status(400).json({ msg: "존재하지 않는 계정입니다." })
 
             await Users.findOneAndUpdate({ _id: req.user.id }, {
                 cart: req.body.cart
             })
 
-            return res.json({ msg: "Added to cart" })
+            return res.json({ msg: "장바구니에 추가되었습니다." })
         } catch (err) {
             return res.status(500).json({ msg: err.message })
         }

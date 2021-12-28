@@ -66,18 +66,18 @@ const productCtrl = {
     createProduct: async (req, res) => {
         try {
             const { product_id, title, price, description, content, images, category } = req.body;
-            if (!images) return res.status(400).json({ msg: "No image upload" })
+            if (!images) return res.status(400).json({ msg: "이미지가 없습니다." })
 
             const product = await Products.findOne({ product_id })
             if (product)
-                return res.status(400).json({ msg: "This product already exists." })
+                return res.status(400).json({ msg: "이미 존재하는 상품입니다." })
 
             const newProduct = new Products({
                 product_id, title: title.toLowerCase(), price, description, content, images, category
             })
 
             await newProduct.save()
-            res.json({ msg: "Created a product" })
+            res.json({ msg: "상품이 등록되었습니다." })
 
         } catch (err) {
             return res.status(500).json({ msg: err.message })
@@ -86,7 +86,7 @@ const productCtrl = {
     deleteProduct: async (req, res) => {
         try {
             await Products.findByIdAndDelete(req.params.id)
-            res.json({ msg: "Deleted a Product" })
+            res.json({ msg: "상품이 삭제되었습니다." })
         } catch (err) {
             return res.status(500).json({ msg: err.message })
         }
@@ -94,13 +94,13 @@ const productCtrl = {
     updateProduct: async (req, res) => {
         try {
             const { title, price, description, content, images, category } = req.body;
-            if (!images) return res.status(400).json({ msg: "No image upload" })
+            if (!images) return res.status(400).json({ msg: "이미지가 없습니다." })
 
             await Products.findOneAndUpdate({ _id: req.params.id }, {
                 title: title.toLowerCase(), price, description, content, images, category
             })
 
-            res.json({ msg: "Updated a Product" })
+            res.json({ msg: "상품이 업데이트되었습니다." })
         } catch (err) {
             return res.status(500).json({ msg: err.message })
         }

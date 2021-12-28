@@ -13,15 +13,15 @@ const categoryCtrl = {
     createCategory: async (req, res) => {
         try {
             // if user have role = 1 ---> admin
-            // only admin can create , delete and update category
+            // only admin can CRUD category
             const { name } = req.body;
             const category = await Category.findOne({ name })
-            if (category) return res.status(400).json({ msg: "This category already exists." })
+            if (category) return res.status(400).json({ msg: "이미 존재하는 카테고리입니다." })
 
             const newCategory = new Category({ name })
 
             await newCategory.save()
-            res.json({ msg: "Created a category" })
+            res.json({ msg: "카테고리가 생성되었습니다." })
         } catch (err) {
             return res.status(500).json({ msg: err.message })
         }
@@ -34,7 +34,7 @@ const categoryCtrl = {
             })
 
             await Category.findByIdAndDelete(req.params.id)
-            res.json({ msg: "Deleted a Category" })
+            res.json({ msg: "카테고리가 삭제되었습니다." })
         } catch (err) {
             return res.status(500).json({ msg: err.message })
         }
@@ -44,7 +44,7 @@ const categoryCtrl = {
             const { name } = req.body;
             await Category.findOneAndUpdate({ _id: req.params.id }, { name })
 
-            res.json({ msg: "Updated a category" })
+            res.json({ msg: "카테고리가 업데이트되었습니다." })
         } catch (err) {
             return res.status(500).json({ msg: err.message })
         }
